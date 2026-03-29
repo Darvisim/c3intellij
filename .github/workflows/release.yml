@@ -6,6 +6,7 @@ name: Release
 on:
   release:
     types: [prereleased, released]
+  workflow_dispatch: 
 
 jobs:
 
@@ -85,9 +86,7 @@ jobs:
           git commit -am "Changelog update - $VERSION"
           git push --set-upstream origin $BRANCH
           
-          gh label create "$LABEL" \
-            --description "Pull requests with release changelog update" \
-            || true
+          gh label create "$LABEL" --description "Pull requests with release changelog update" || true
 
           gh pr create \
             --title "Changelog update - \`$VERSION\`" \
