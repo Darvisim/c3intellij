@@ -62,7 +62,8 @@ jobs:
           PROPERTIES="$(./gradlew properties --console=plain -q)"
           VERSION="$(echo "$PROPERTIES" | grep "^version:" | cut -f2- -d ' ')"
           NAME="$(echo "$PROPERTIES" | grep "^pluginName:" | cut -f2- -d ' ')"
-          CHANGELOG="$(./gradlew getChangelog --unreleased --no-header --console=plain -q)"
+          # If Unreleased tag not present in CHANGELOG.md, fall back to lastest tag
+          CHANGELOG="$(./gradlew getChangelog --unreleased --no-header --console=plain -q || ./gradlew getChangelog --no-header --console=plain -q)"
 
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "name=$NAME" >> $GITHUB_OUTPUT
