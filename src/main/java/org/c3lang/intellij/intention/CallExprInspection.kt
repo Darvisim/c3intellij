@@ -14,7 +14,7 @@ import org.c3lang.intellij.psi.C3FuncDefinition
 import org.c3lang.intellij.psi.C3MacroDefinition
 import org.c3lang.intellij.psi.C3TopLevel
 import org.c3lang.intellij.psi.C3Visitor
-import org.eclipse.lsp4j.jsonrpc.messages.Either
+import org.c3lang.intellij.Either
 
 class CallExprInspection : LocalInspectionTool() {
     override fun buildVisitor(
@@ -123,13 +123,13 @@ class CallExprInspection : LocalInspectionTool() {
                     val candidates = arrayListOf<String>()
 
                     candidates.addAll(
-                            declarations.filter { it.isLeft }.map {
-                                it.left.funcDef.funcHeader.funcName.text
+                            declarations.filter { it.isLeft() }.map {
+                                it.left()?.funcDef?.funcHeader?.funcName?.text ?: ""
                             }
                     )
                     candidates.addAll(
-                            declarations.filter { it.isRight }.map {
-                                it.right.macroHeader.macroName.text
+                            declarations.filter { it.isRight() }.map {
+                                it.right()?.macroHeader?.macroName?.text ?: ""
                             }
                     )
 
