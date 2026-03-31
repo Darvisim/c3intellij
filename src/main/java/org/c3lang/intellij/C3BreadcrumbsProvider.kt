@@ -35,15 +35,11 @@ class C3BreadcrumbsProvider : BreadcrumbsProvider {
             is C3FuncDefinition -> element.getFuncDef().getFuncHeader().getFuncName().text
             is C3BitstructDeclaration -> element.getTypeName().text
             is C3StructMemberDeclaration -> {
-                val list: C3IdentifierList? = element.getIdentifierList()
-                if (list == null) "anonymous"
-                list?.text
+                element.getIdentifierList()?.text ?: "anonymous"
             }
 
             is C3BitstructDef, is C3BitstructSimpleDef -> {
-                val element: ASTNode? = element.node.findChildByType(C3Types.IDENT)
-                if (element == null) "anonymous"
-                element?.text
+                element.node.findChildByType(C3Types.IDENT)?.text ?: "anonymous"
             }
             else -> ""
         }

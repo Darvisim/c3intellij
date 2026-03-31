@@ -28,7 +28,7 @@ class C3SettingsComponent
             project = openProjects[0]
         }
 
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10))
+        mainPanel.border = BorderFactory.createEmptyBorder(10, 10, 10, 10)
         stdlibPathField.addBrowseFolderListener(project, FileChooserDescriptor(false, true, false, false, false, false))
 
         val gbc = GridBagConstraints()

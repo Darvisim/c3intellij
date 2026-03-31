@@ -35,18 +35,4 @@ public class C3FileElementType extends IStubFileElementType<C3FileStub> {
             }
         };
     }
-
-//    @Override
-//    public @NonNls @NotNull String getExternalId() {
-//        return "c3.FILE";
-//    }
-//    @Override
-//    public @NotNull C3FileStub deserialize(@NotNull StubInputStream dataStream, StubElement parentStub) throws IOException {
-//        return super.deserialize(dataStream, parentStub);
-//    }
-//
-//    @Override
-//    public void serialize(@NotNull C3FileStub stub, @NotNull StubOutputStream dataStream) throws IOException {
-//        super.serialize(stub, dataStream);
-//    }
 }

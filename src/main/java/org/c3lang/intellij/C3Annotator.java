@@ -43,6 +43,27 @@ public class C3Annotator implements Annotator
         return C3SyntaxHighlighter.TYPE_DEFINITION_KEY;
     }
 
+    private static TextAttributesKey colorForFuncName(C3FuncName element)
+    {
+        return element.getType() != null ? C3SyntaxHighlighter.METHOD_KEY : C3SyntaxHighlighter.FUNCTION_KEY;
+    }
+
+    private static TextAttributesKey colorForMacroName(C3MacroName element)
+    {
+        TextAttributesKey color = C3SyntaxHighlighter.MACRO_KEY;
+        String name = element.getLastChild().getText();
+        boolean at_macro = name != null && !name.isEmpty() && name.charAt(0) == '@';
+        if (element.getType() != null)
+        {
+            color = at_macro ? C3SyntaxHighlighter.AT_MACRO_METHOD_KEY : C3SyntaxHighlighter.MACRO_METHOD_KEY;
+        }
+        else if (at_macro)
+        {
+            color = C3SyntaxHighlighter.AT_MACRO_KEY;
+        }
+        return color;
+    }
+
     private void annotate(@NotNull C3AliasDecl element, @NotNull AnnotationHolder annotationHolder)
     {
         annotationHolder.newSilentAnnotation(HighlightSeverity.TEXT_ATTRIBUTES)
@@ -84,8 +105,8 @@ public class C3Annotator implements Annotator
             }
             else if (is_ident)
             {
-                annotationHolder.newAnnotation(HighlightSeverity.ERROR, "An @-alias may not alias non-@ identifiers.")
-                                .range(source.getPathIdent())
+                annotationHolder.newAnnotation(HighlightSeverity.ERROR, "A non-@-alias may not alias an @-identifier.")
+                                .range(source.getPathAtIdent())
                                 .create();
             }
         }
@@ -134,7 +155,10 @@ public class C3Annotator implements Annotator
                 if (error_start > -1) annotateBytesError(annotationHolder, error, element, error_start, index);
                 error_start = -1;
                 index++;
-                while (text.charAt(index) != type) index++;
+                do
+                {
+                    index++;
+                } while (text.charAt(index) != type);
                 index++;
                 continue;
             }
@@ -311,24 +335,11 @@ public class C3Annotator implements Annotator
         }
         else if (psiElement instanceof C3FuncName element)
         {
-            TextAttributesKey color = element.getType() != null ? C3SyntaxHighlighter.METHOD_KEY : C3SyntaxHighlighter.FUNCTION_KEY;
-            annotationHolder.newSilentAnnotation(HighlightSeverity.TEXT_ATTRIBUTES).textAttributes(color).create();
+            annotationHolder.newSilentAnnotation(HighlightSeverity.TEXT_ATTRIBUTES).textAttributes(colorForFuncName(element)).create();
         }
         else if (psiElement instanceof C3MacroName element)
         {
-
-            TextAttributesKey color = C3SyntaxHighlighter.MACRO_KEY;
-            String name = psiElement.getLastChild().getText();
-            boolean at_macro = name != null && name.length() > 0 && name.charAt(0) == '@';
-            if (element.getType() != null)
-            {
-                color = at_macro ? C3SyntaxHighlighter.AT_MACRO_METHOD_KEY : C3SyntaxHighlighter.MACRO_METHOD_KEY;
-            }
-            else if (at_macro)
-            {
-                color = C3SyntaxHighlighter.AT_MACRO_KEY;
-            }
-            annotationHolder.newSilentAnnotation(HighlightSeverity.TEXT_ATTRIBUTES).textAttributes(color).create();
+            annotationHolder.newSilentAnnotation(HighlightSeverity.TEXT_ATTRIBUTES).textAttributes(colorForMacroName(element)).create();
         }
         else if (psiElement instanceof C3TypeName)
         {

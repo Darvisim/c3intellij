@@ -16,21 +16,24 @@ import org.c3lang.intellij.psi.C3TopLevel
 import org.c3lang.intellij.psi.C3Visitor
 import org.eclipse.lsp4j.jsonrpc.messages.Either
 
-class CallExprInspection : LocalInspectionTool()
-{
-    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean, session: LocalInspectionToolSession): PsiElementVisitor
-    {
-        if (session.file !is C3File)
-        {
+class CallExprInspection : LocalInspectionTool() {
+    override fun buildVisitor(
+            holder: ProblemsHolder,
+            isOnTheFly: Boolean,
+            session: LocalInspectionToolSession
+    ): PsiElementVisitor {
+        if (session.file !is C3File) {
             return PsiElementVisitor.EMPTY_VISITOR
         }
 
-        return object : C3Visitor()
-        {
-            override fun visitCallExpr(element: C3CallExpr)
-            {
+        return object : C3Visitor() {
+            override fun visitCallExpr(element: C3CallExpr) {
                 val imports = arrayListOf<String>()
-                element.moduleDefinition.importDeclarations.forEach { it.importPaths.importPathList.map { list -> imports.add(list.moduleName?.value!!) } }
+                element.moduleDefinition.importDeclarations.forEach {
+                    it.importPaths.importPathList.forEach { list ->
+                        imports.add(list.moduleName?.value!!)
+                    }
+                }
 
                 val result = mutableSetOf<String>()
 
@@ -39,8 +42,7 @@ class CallExprInspection : LocalInspectionTool()
                 }
 
                 val file = element.containingFile as C3File
-                if (!element.text.contains("("))
-                {
+                if (!element.text.contains("(")) {
                     return
                 }
 
@@ -48,57 +50,67 @@ class CallExprInspection : LocalInspectionTool()
                 val name = fullName.substringAfterLast("::")
                 var callModule = ""
 
-                if (fullName.contains("::"))
-                {
+                if (fullName.contains("::")) {
                     callModule = fullName.substringBeforeLast("::")
                 }
 
-                if (callModule.isNotEmpty())
-                {
-                    if (result.none { it.endsWith(callModule) })
-                    {
-                        holder.registerProblem(element, "No suitable import found for module '$callModule'")
+                if (callModule.isNotEmpty()) {
+                    if (result.none { it.endsWith(callModule) }) {
+                        holder.registerProblem(
+                                element,
+                                "No suitable import found for module '$callModule'"
+                        )
                         return
                     }
-                }
-                else
-                {
+                } else {
                     val topLevels = element.moduleDefinition.children.filterIsInstance<C3TopLevel>()
                     val functions = arrayListOf<C3FuncDefinition>()
                     val macros = arrayListOf<C3MacroDefinition>()
 
-                    topLevels.forEach { topLevel -> functions.addAll(topLevel.children.filterIsInstance<C3FuncDefinition>().filter { it.funcDef.funcHeader.funcName.text == name }) }
-                    topLevels.forEach { topLevel -> macros.addAll(topLevel.children.filterIsInstance<C3MacroDefinition>().filter { it.macroHeader.macroName.text == name }) }
+                    topLevels.forEach { topLevel ->
+                        functions.addAll(
+                                topLevel.children.filterIsInstance<C3FuncDefinition>().filter {
+                                    it.funcDef.funcHeader.funcName.text == name
+                                }
+                        )
+                    }
+                    topLevels.forEach { topLevel ->
+                        macros.addAll(
+                                topLevel.children.filterIsInstance<C3MacroDefinition>().filter {
+                                    it.macroHeader.macroName.text == name
+                                }
+                        )
+                    }
 
-                    if (functions.isEmpty() && macros.isEmpty())
-                    {
+                    if (functions.isEmpty() && macros.isEmpty()) {
                         holder.registerProblem(element, "'$name' not found in current module")
                     }
 
                     return
                 }
-//                    // check if is in current module
-//                    val declarations = findDeclarationsInModule(file.project, module)
-//
-//                    val functions = declarations.filter { it.isLeft }.filter { it.left.funcDef.funcHeader.funcName.text == name }
-//                    val macros    = declarations.filter { it.isRight }.filter { it.right.macroHeader.macroName.text == name }
-//
-//                    if (functions.isNotEmpty() || macros.isNotEmpty())
-//                    {
-//
-//                        return
-//                    }
-//                }
+                //                    // check if is in current module
+                //                    val declarations = findDeclarationsInModule(file.project,
+                // module)
+                //
+                //                    val functions = declarations.filter { it.isLeft }.filter {
+                // it.left.funcDef.funcHeader.funcName.text == name }
+                //                    val macros    = declarations.filter { it.isRight }.filter {
+                // it.right.macroHeader.macroName.text == name }
+                //
+                //                    if (functions.isNotEmpty() || macros.isNotEmpty())
+                //                    {
+                //
+                //                        return
+                //                    }
+                //                }
 
                 // TODO: else check if it's builtin
                 // TODO: else check if it's in the current module
 
-
                 var declaration: Either<C3MacroDefinition, C3FuncDefinition>? = null
 
                 result.forEach {
-                    if (it.endsWith(callModule))
-                    {
+                    if (it.endsWith(callModule)) {
                         // TODO: filter module for function or macro with name
                         declaration = findDeclarationInModule(element.project, it, name)
 
@@ -106,15 +118,25 @@ class CallExprInspection : LocalInspectionTool()
                     }
                 }
 
-                if (declaration == null)
-                {
+                if (declaration == null) {
                     val declarations = findDeclarationsInModule(file.project, callModule)
                     val candidates = arrayListOf<String>()
 
-                    candidates.addAll(declarations.filter { it.isLeft }.map { it.left.funcDef.funcHeader.funcName.text })
-                    candidates.addAll(declarations.filter { it.isRight }.map { it.right.macroHeader.macroName.text })
+                    candidates.addAll(
+                            declarations.filter { it.isLeft }.map {
+                                it.left.funcDef.funcHeader.funcName.text
+                            }
+                    )
+                    candidates.addAll(
+                            declarations.filter { it.isRight }.map {
+                                it.right.macroHeader.macroName.text
+                            }
+                    )
 
-                    holder.registerProblem(element, "Declaration not found. did you mean $callModule::${findBestMatch(name, candidates)}")
+                    holder.registerProblem(
+                            element,
+                            "Declaration not found. did you mean $callModule::${findBestMatch(name, candidates)}"
+                    )
                 }
             }
         }

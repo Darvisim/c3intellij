@@ -4,13 +4,10 @@ import com.intellij.codeInsight.completion.CompletionParameters
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.codeStyle.MinusculeMatcher
 import com.intellij.psi.codeStyle.NameUtil
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.parentOfType
-import com.intellij.psi.util.siblings
-import com.intellij.refactoring.suggested.startOffset
 import org.c3lang.intellij.psi.*
 import kotlin.math.max
 

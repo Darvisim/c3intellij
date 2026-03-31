@@ -12,7 +12,7 @@ import java.util.Collections;
 
 public class C3StdLibRootsProvider extends AdditionalLibraryRootsProvider {
     @Override
-    public @NotNull Collection<SyntheticLibrary> getAdditionalProjectLibraries(Project project) {
+    public @NotNull Collection<SyntheticLibrary> getAdditionalProjectLibraries(@NotNull Project project) {
 
         var settings = C3SettingsState.getInstance();
         var stdLibPath = settings.stdlibPath;

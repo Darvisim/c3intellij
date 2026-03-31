@@ -1,7 +1,6 @@
 package org.c3lang.intellij.psi.impl
 
 import com.intellij.lang.ASTNode
-import com.intellij.psi.impl.source.tree.LeafPsiElement
 import org.c3lang.intellij.psi.C3PathIdentExpr
 
 abstract class C3PathIdentExprMixinImpl(node: ASTNode) : C3PsiElementImpl(node), C3PathIdentExpr {

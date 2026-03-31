@@ -4,20 +4,15 @@ import com.intellij.codeInsight.completion.CompletionParameters
 import com.intellij.codeInsight.completion.CompletionProvider
 import com.intellij.codeInsight.completion.CompletionResultSet
 import com.intellij.codeInsight.lookup.LookupElementBuilder
-import com.intellij.openapi.diagnostic.Logger
 import com.intellij.patterns.PlatformPatterns.psiElement
 import com.intellij.patterns.StandardPatterns.or
 import com.intellij.psi.util.parentOfType
 import com.intellij.util.ProcessingContext
-import com.intellij.util.text.nullize
 import org.c3lang.intellij.C3Icons
 import org.c3lang.intellij.index.StructService
 import org.c3lang.intellij.psi.*
 
 object InitializerListCompletionContributor : CompletionProvider<CompletionParameters>() {
-    private val log = Logger.getInstance(
-        InitializerListCompletionContributor::class.java
-    )
     private val pattern = or(
         // foo::<caret>
         psiElement().inside(C3InitializerList::class.java),
@@ -31,7 +26,7 @@ object InitializerListCompletionContributor : CompletionProvider<CompletionParam
         val originalPosition = parameters.originalPosition
 
         if (!pattern.accepts(parameters.position) && !pattern.accepts(parameters.originalPosition)) {
-            return;
+            return
         }
 
         val lookupTarget: C3PsiElement = parameters.siblingOf<C3AccessIdent>()

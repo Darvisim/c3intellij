@@ -39,7 +39,7 @@ abstract class C3ImportPathMixinImpl(node: ASTNode) : C3PsiElementImpl(node), C3
         override fun multiResolve(): Collection<C3PsiElement> {
             val importProvider = element.moduleDefinition
             val collectElements = PsiTreeUtil.collectElements(importProvider) {
-                it as? C3CallExpr ?: return@collectElements false
+                if (it !is C3CallExpr) return@collectElements false
                 val expr = it.expr as? C3PathIdentExpr ?: return@collectElements false
                 val path = expr.pathIdent.path ?: return@collectElements false
 

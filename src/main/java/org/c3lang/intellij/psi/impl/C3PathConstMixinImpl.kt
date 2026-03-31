@@ -7,7 +7,7 @@ import com.intellij.psi.PsiReference
 import com.intellij.psi.impl.source.resolve.reference.impl.PsiMultiReference
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.util.elementType
-import com.intellij.refactoring.suggested.endOffset
+
 import org.c3lang.intellij.index.NameIndexService
 import org.c3lang.intellij.psi.C3ConstDeclarationStmt
 import org.c3lang.intellij.psi.C3FaultDefinition

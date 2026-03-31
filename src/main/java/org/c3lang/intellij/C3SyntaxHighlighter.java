@@ -74,16 +74,6 @@ public class C3SyntaxHighlighter extends SyntaxHighlighterBase
     public final static TextAttributesKey BLOCK_COMMENT_KEY = createTextAttributesKey("C3_BLOCK_COMMENT", DefaultLanguageHighlighterColors.BLOCK_COMMENT);
     public final static TextAttributesKey DOC_COMMENT_KEY = createTextAttributesKey("C3_DOC_COMMENT", DefaultLanguageHighlighterColors.DOC_COMMENT);
 
-    private static void addMapping(String name, TextAttributesKey fallbackAttributeKey, IElementType... mapped)
-    {
-        TextAttributesKey key = createTextAttributesKey(name, fallbackAttributeKey);
-        TextAttributesKey[] keys = new TextAttributesKey[] { key };
-        for (IElementType type : mapped)
-        {
-            s_mapping.put(type, keys);
-        }
-    }
-
     private static void addMapping(TextAttributesKey key, IElementType... mapped)
      {
          TextAttributesKey[] keys = new TextAttributesKey[] { key };
@@ -92,16 +82,6 @@ public class C3SyntaxHighlighter extends SyntaxHighlighterBase
              s_mapping.put(type, keys);
          }
      }
-
-    private static void addMapping(String name, TextAttributesKey fallbackAttributeKey, TokenSet set)
-    {
-        TextAttributesKey key = createTextAttributesKey(name, fallbackAttributeKey);
-        TextAttributesKey[] keys = new TextAttributesKey[] { key };
-        for (IElementType type : set.getTypes())
-        {
-            s_mapping.put(type, keys);
-        }
-    }
 
     private static void addMapping(TextAttributesKey key, TokenSet set)
     {

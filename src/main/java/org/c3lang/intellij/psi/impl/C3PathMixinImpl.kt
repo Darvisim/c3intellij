@@ -1,26 +1,10 @@
 package org.c3lang.intellij.psi.impl
 
 import com.intellij.lang.ASTNode
-import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiReference
-import com.intellij.psi.PsiReferenceBase
-import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.tree.TokenSet
-import com.intellij.psi.util.PsiTreeUtil
-import com.intellij.psi.util.elementType
-import com.intellij.psi.util.findTopmostParentOfType
-import com.intellij.psi.util.parentOfType
-import org.c3lang.intellij.psi.C3BaseType
-import org.c3lang.intellij.psi.C3CallExpr
-import org.c3lang.intellij.psi.C3CompoundStatement
-import org.c3lang.intellij.psi.C3FullyQualifiedNamePsiElement
 import org.c3lang.intellij.psi.C3Path
-import org.c3lang.intellij.psi.C3PathIdentExpr
-import org.c3lang.intellij.psi.C3PsiElement
 import org.c3lang.intellij.psi.C3Types
-import org.c3lang.intellij.psi.FullyQualifiedName
-import org.c3lang.intellij.psi.reference.C3ReferenceBase
 
 abstract class C3PathMixinImpl(node: ASTNode) : C3PsiNamedElementImpl(node), C3Path {
 

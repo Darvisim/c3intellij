@@ -17,7 +17,6 @@ import java.nio.file.Files;
 
 public class C3CompilerConfigurable implements SearchableConfigurable, Configurable.NoScroll
 {
-    private JPanel panel;
     private TextFieldWithBrowseButton pathField;
 
     public C3CompilerConfigurable()
@@ -36,7 +35,7 @@ public class C3CompilerConfigurable implements SearchableConfigurable, Configura
 
     @Override public @Nullable JComponent createComponent()
     {
-        panel = new JPanel(new BorderLayout(10, 5));
+        JPanel panel = new JPanel(new BorderLayout(10, 5));
         final JPanel contentPanel = new JPanel(new BorderLayout(4, 0));
         panel.add(contentPanel, BorderLayout.NORTH);
         contentPanel.add(new JLabel("C3 Compiler"), BorderLayout.WEST);

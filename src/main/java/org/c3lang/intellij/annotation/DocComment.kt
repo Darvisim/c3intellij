@@ -124,28 +124,10 @@ private fun annotateParamTags(element: PsiComment, holder: AnnotationHolder)
     val macro = functionOrMacro?.right
     val args = arrayListOf<String>()
 
-    if (function != null)
-    {
-        function.funcDef.fnParameterList.parameterList?.paramDeclList?.forEach {
-            if (it.parameter.name != null)
-            {
-                args.add(it.parameter.name!!)
-            } else
-            {
-                args.add(it.parameter.type?.text!!)
-            }
-        }
-    } else if (macro != null)
-    {
-        macro.macroParams.parameterList?.paramDeclList?.forEach {
-            if (it.parameter.name != null)
-            {
-                args.add(it.parameter.name!!)
-            } else
-            {
-                args.add(it.parameter.type?.text!!)
-            }
-        }
+    function?.funcDef?.fnParameterList?.parameterList?.paramDeclList?.forEach {
+        args.add(it.parameter.name ?: it.parameter.type?.text!!)
+    } ?: macro?.macroParams?.parameterList?.paramDeclList?.forEach {
+        args.add(it.parameter.name ?: it.parameter.type?.text!!)
     }
 
     val regex = Regex("@param\\s+((\\[(in|&in|out|&out|inout|&inout)])\\s+)?(([$#])?\\w+)(\\s+:\\s+(\"((?:[^\"\\\\]|\\\\.)*)\"|`((?:[^`\\\\]|\\\\.)*)`))?")
