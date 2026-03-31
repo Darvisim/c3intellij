@@ -7,7 +7,6 @@ import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.stubs.IStubElementType
 import com.intellij.psi.tree.IElementType
 import org.c3lang.intellij.psi.C3MacroDefinition
-import org.c3lang.intellij.psi.C3PsiElement
 import org.c3lang.intellij.psi.FullyQualifiedName
 import org.c3lang.intellij.psi.ModuleName
 import org.c3lang.intellij.psi.ParamType

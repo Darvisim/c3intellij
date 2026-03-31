@@ -5,7 +5,6 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.stubs.IStubElementType
 import com.intellij.psi.tree.IElementType
-import com.intellij.psi.tree.TokenSet
 import com.intellij.psi.util.elementType
 import com.intellij.psi.util.parentOfType
 import org.c3lang.intellij.psi.*

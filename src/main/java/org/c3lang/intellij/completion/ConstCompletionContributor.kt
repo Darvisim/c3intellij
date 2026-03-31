@@ -18,9 +18,6 @@ import org.c3lang.intellij.psi.*
 
 @Suppress("DuplicatedCode")
 object ConstCompletionContributor : CompletionProvider<CompletionParameters>() {
-    private val log = Logger.getInstance(
-        ConstCompletionContributor::class.java
-    )
     private val pattern = or(
         // foo::<caret>
         psiElement().inside(C3PathConst::class.java),
@@ -32,7 +29,7 @@ object ConstCompletionContributor : CompletionProvider<CompletionParameters>() {
         result: CompletionResultSet
     ) {
         if (!pattern.accepts(parameters.position) && !pattern.accepts(parameters.originalPosition)) {
-            return;
+            return
         }
 
         val moduleDefinition = parameters.moduleDefinition ?: return

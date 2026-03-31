@@ -6,7 +6,6 @@ import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.ReadAction
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.editor.Document
-import com.intellij.openapi.project.DumbService
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiElement
@@ -23,8 +22,6 @@ class LogReferencesInspection : LocalInspectionTool() {
 
             override fun visitElement(psi: PsiElement) {
                 if (psi is C3Arg || psi is C3LocalDeclarationStmt) {
-                    val references = ReferencesSearch.search(psi).findAll()
-
                     holder.registerProblem(
                         psi,
                         "Log references of ${psi.text}",
@@ -45,9 +42,6 @@ class LogReferencesInspection : LocalInspectionTool() {
             project: Project,
             descriptor: ProblemDescriptor
         ) {
-            val document: Document? =
-                PsiDocumentManager.getInstance(project).getDocument(descriptor.psiElement.containingFile)
-            val lineNo = document?.getLineNumber(descriptor.psiElement.textOffset)
 
 
             ReadAction.run<Nothing> {
@@ -63,6 +57,5 @@ class LogReferencesInspection : LocalInspectionTool() {
     }
 
     companion object {
-        private val log = Logger.getInstance(javaClass)
     }
 }

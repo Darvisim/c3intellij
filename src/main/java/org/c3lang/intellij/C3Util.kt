@@ -69,149 +69,79 @@ object C3Util {
         }
     }
 
-    fun findDeclarationInModule(
-            project: Project,
-            module: String,
-            name: String
-    ): Either<C3MacroDefinition, C3FuncDefinition>? {
+    private fun walkAllFiles(project: Project, processor: (C3File) -> Unit) {
         val psiManager = PsiManager.getInstance(project)
         val settings = C3SettingsState.getInstance()
         val stdLibPath = settings.stdlibPath
 
         // search project
         FilenameIndex.getAllFilesByExt(
-                        project,
-                        C3Language.INSTANCE.associatedFileType?.defaultExtension!!
-                )
-                .filter { it.isValid }
-                .mapNotNull { PsiManager.getInstance(project).findFile(it) }
-                .filter { it.language is C3Language }
-                .forEach { file ->
-                    val modules = file.children.filterIsInstance<C3ModuleDefinition>()
-                    modules.filter { it.moduleName?.value == module }.forEach { module ->
-                        module.children.filterIsInstance<C3TopLevel>().forEach { topLevel ->
-                            val macros =
-                                    topLevel.children.filterIsInstance<C3MacroDefinition>().filter {
-                                        it.macroHeader.macroName.text == name
-                                    }
-                            if (macros.isNotEmpty()) return Either.forLeft(macros[0])
+            project,
+            C3Language.INSTANCE.associatedFileType?.defaultExtension!!
+        )
+            .filter { it.isValid }
+            .mapNotNull { psiManager.findFile(it) as? C3File }
+            .forEach(processor)
 
-                            val functions =
-                                    topLevel.children.filterIsInstance<C3FuncDefinition>().filter {
-                                        it.funcDef.funcHeader.funcName.text == name
-                                    }
-                            if (functions.isNotEmpty()) return Either.forRight(functions[0])
+        // search stdlib
+        if (stdLibPath != null) {
+            File(stdLibPath).walk().filter { file -> file.isFile && file.extension == "c3" }.forEach { file ->
+                LocalFileSystem.getInstance().findFileByIoFile(file)?.let { virtualFile ->
+                    (psiManager.findFile(virtualFile) as? C3File)?.let(processor)
+                }
+            }
+        }
+    }
+
+    fun findDeclarationInModule(
+        project: Project,
+        module: String,
+        name: String
+    ): Either<C3MacroDefinition, C3FuncDefinition>? {
+        var result: Either<C3MacroDefinition, C3FuncDefinition>? = null
+        walkAllFiles(project) { file ->
+            if (result != null) return@walkAllFiles
+            file.children.filterIsInstance<C3ModuleDefinition>()
+                .filter { it.moduleName?.value == module }
+                .forEach { moduleDef ->
+                    moduleDef.children.filterIsInstance<C3TopLevel>().forEach { topLevel ->
+                        val macros = topLevel.children.filterIsInstance<C3MacroDefinition>()
+                            .filter { it.macroHeader.macroName.text == name }
+                        if (macros.isNotEmpty()) {
+                            result = Either.forLeft(macros[0])
+                            return@walkAllFiles
+                        }
+
+                        val functions = topLevel.children.filterIsInstance<C3FuncDefinition>()
+                            .filter { it.funcDef.funcHeader.funcName.text == name }
+                        if (functions.isNotEmpty()) {
+                            result = Either.forRight(functions[0])
+                            return@walkAllFiles
                         }
                     }
                 }
-
-        // search stdlib after if not found
-        File(stdLibPath).walk().filter { file -> file.isFile && file.extension == "c3" }.forEach {
-                file ->
-            LocalFileSystem.getInstance().findFileByIoFile(file)?.let { virtualFile ->
-                psiManager
-                        .findFile(virtualFile)
-                        ?.takeIf { psiFile -> psiFile.language == C3Language.INSTANCE }
-                        ?.children
-                        ?.filterIsInstance<C3ModuleDefinition>()
-                        ?.filter { moduleDef -> moduleDef.moduleName?.value == module }
-                        ?.forEach { moduleDef ->
-                            val topLevels = moduleDef.children.filterIsInstance<C3TopLevel>()
-
-                            topLevels.forEach { topLevel ->
-                                val macros =
-                                        topLevel.children.filterIsInstance<C3MacroDefinition>()
-                                                .filter { it.macroHeader.macroName.text == name }
-                                if (macros.isNotEmpty()) return Either.forLeft(macros[0])
-
-                                val functions =
-                                        topLevel.children.filterIsInstance<C3FuncDefinition>()
-                                                .filter {
-                                                    it.funcDef.funcHeader.funcName.text == name
-                                                }
-                                if (functions.isNotEmpty()) return Either.forRight(functions[0])
-                            }
-                        }
-            }
         }
-
-        return null
+        return result
     }
 
     fun findC3ModulesStartingWith(project: Project, prefix: String): Set<String> {
         val modules = mutableSetOf<String>()
-        val psiManager = PsiManager.getInstance(project)
-        val settings = C3SettingsState.getInstance()
-        val stdLibPath = settings.stdlibPath
-
-        // search project
-        FilenameIndex.getAllFilesByExt(
-                        project,
-                        C3Language.INSTANCE.associatedFileType?.defaultExtension!!
-                )
-                .filter { it.isValid }
-                .mapNotNull { PsiManager.getInstance(project).findFile(it) }
-                .filter { it.language is C3Language }
-                .forEach { file ->
-                    file.children.filterIsInstance<C3ModuleDefinition>().forEach { module ->
-                        module.moduleName?.value?.takeIf { it.startsWith(prefix) }?.let { moduleName
-                            ->
-                            modules.add(moduleName)
-                        }
-                    }
-                }
-
-        // search stdlib after
-        File(stdLibPath).walk().filter { file -> file.isFile && file.extension == "c3" }.forEach {
-                file ->
-            LocalFileSystem.getInstance().findFileByIoFile(file)?.let { virtualFile ->
-                psiManager
-                        .findFile(virtualFile)
-                        ?.takeIf { psiFile -> psiFile.language == C3Language.INSTANCE }
-                        ?.children
-                        ?.filterIsInstance<C3ModuleDefinition>()
-                        ?.forEach { moduleDef ->
-                            moduleDef.moduleName?.value?.takeIf { it.startsWith(prefix) }?.let {
-                                    moduleName ->
-                                modules.add(moduleName)
-                            }
-                        }
+        walkAllFiles(project) { file ->
+            file.children.filterIsInstance<C3ModuleDefinition>().forEach { module ->
+                module.moduleName?.value?.takeIf { it.startsWith(prefix) }?.let { modules.add(it) }
             }
         }
-
         return modules
     }
 
     fun findDeclarationsInModule(
-            project: Project,
-            module: String
+        project: Project,
+        module: String
     ): ArrayList<Either<C3FuncDefinition, C3MacroDefinition>> {
-        val settings = C3SettingsState.getInstance()
-        val stdLibPath = settings.stdlibPath ?: return arrayListOf()
-        val stdLibFiles = walkStdLib(project, File(stdLibPath))
         val matches = arrayListOf<Either<C3FuncDefinition, C3MacroDefinition>>()
-
-        stdLibFiles.forEach { file -> collectDeclarationsInFile(file, module, matches) }
-
-        val projectFiles = mutableListOf<C3File>()
-        val psiManager = PsiManager.getInstance(project)
-
-        val contentRoots = ProjectRootManager.getInstance(project).contentRoots
-        for (root in contentRoots) {
-            VfsUtilCore.iterateChildrenRecursively(root, null) { file ->
-                if (!file.isDirectory) {
-                    psiManager.findFile(file)?.let { psiFile ->
-                        if (psiFile.language == C3Language.INSTANCE) {
-                            projectFiles.add(psiFile as C3File)
-                        }
-                    }
-                }
-                true
-            }
+        walkAllFiles(project) { file ->
+            collectDeclarationsInFile(file, module, matches)
         }
-
-        projectFiles.forEach { file -> collectDeclarationsInFile(file, module, matches) }
-
         return matches
     }
 
@@ -237,29 +167,6 @@ object C3Util {
                 }
             }
         }
-    }
-
-    private fun walkStdLib(project: Project, stdLibPath: File): ArrayList<C3File> {
-        val virtualRoot =
-                LocalFileSystem.getInstance().refreshAndFindFileByIoFile(stdLibPath)
-                        ?: return arrayListOf()
-        val psiManager = PsiManager.getInstance(project)
-        val files = arrayListOf<C3File>()
-
-        fun recurse(vf: VirtualFile) {
-            if (vf.isDirectory) {
-                vf.children.forEach { recurse(it) }
-            } else {
-                val psi = psiManager.findFile(vf)
-                if (psi != null && psi.language == C3Language.INSTANCE) {
-                    files.add(psi as C3File)
-                }
-            }
-        }
-
-        recurse(virtualRoot)
-
-        return files
     }
 
     fun findBestMatch(target: String, candidates: List<String>): String? {

@@ -9,8 +9,6 @@ import com.intellij.openapi.util.Key
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.parentOfType
-import com.intellij.refactoring.suggested.endOffset
-import com.intellij.refactoring.suggested.startOffset
 import org.c3lang.intellij.completion.PsiElementUtils
 import org.c3lang.intellij.psi.*
 

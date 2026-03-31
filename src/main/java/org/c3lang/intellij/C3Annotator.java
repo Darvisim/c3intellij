@@ -74,39 +74,42 @@ public class C3Annotator implements Annotator
         boolean is_at_ident = !is_ident && element.getAliasName().getNode().findChildByType(C3Types.AT_IDENT) != null;
         boolean is_const = !is_at_ident && !is_ident;
 
-        if (source.getPathConst() != null && !is_const)
+        C3PathConst pathConst = source.getPathConst();
+        if (pathConst != null && !is_const)
         {
             annotationHolder.newAnnotation(HighlightSeverity.ERROR, "An alias of a constant must also be all caps.")
-                            .range(element.getAliasName())
+                            .range(pathConst)
                             .create();
         }
-        if (source.getPathIdent() != null)
+        C3PathIdent pathIdent = source.getPathIdent();
+        if (pathIdent != null)
         {
             if (is_const)
             {
                 annotationHolder.newAnnotation(HighlightSeverity.ERROR, "A const alias may not alias non-const identifiers.")
-                                .range(source.getPathIdent())
+                                .range(pathIdent)
                                 .create();
             }
             else if (is_at_ident)
             {
                 annotationHolder.newAnnotation(HighlightSeverity.ERROR, "An @-alias alias may not alias non-@ identifiers.")
-                                .range(source.getPathIdent())
+                                .range(pathIdent)
                                 .create();
             }
         }
-        if (source.getPathAtIdent() != null)
+        C3PathAtIdent pathAtIdent = source.getPathAtIdent();
+        if (pathAtIdent != null)
         {
             if (is_const)
             {
                 annotationHolder.newAnnotation(HighlightSeverity.ERROR, "A const alias may not alias an @-identifiers.")
-                                .range(source.getPathAtIdent())
+                                .range(pathAtIdent)
                                 .create();
             }
             else if (is_ident)
             {
                 annotationHolder.newAnnotation(HighlightSeverity.ERROR, "A non-@-alias may not alias an @-identifier.")
-                                .range(source.getPathAtIdent())
+                                .range(pathAtIdent)
                                 .create();
             }
         }

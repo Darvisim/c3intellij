@@ -18,9 +18,6 @@ import org.c3lang.intellij.psi.*
 
 @Suppress("DuplicatedCode")
 object FaultCompletionContributor : CompletionProvider<CompletionParameters>() {
-    private val log = Logger.getInstance(
-        FaultCompletionContributor::class.java
-    )
     private val pattern = or(
         // foo::<caret>
         psiElement().inside(C3PathConst::class.java),
@@ -32,7 +29,7 @@ object FaultCompletionContributor : CompletionProvider<CompletionParameters>() {
         result: CompletionResultSet
     ) {
         if (!pattern.accepts(parameters.position) && !pattern.accepts(parameters.originalPosition)) {
-            return;
+            return
         }
 
         val moduleDefinition = parameters.moduleDefinition ?: return
@@ -73,7 +70,6 @@ object FaultCompletionContributor : CompletionProvider<CompletionParameters>() {
                         fullyQualifiedName.name
                     )
                 )
-                .withLookupStrings(listOf(fullyQualifiedName.fullName, fullyQualifiedName.name))
                 .withIcon(C3Icons.Nodes.FAULT)
                 .withPresentableText(if (fullyQualifiedName.module == moduleName) fullyQualifiedName.name else fullyQualifiedName.fullName)
                 .withInsertHandler(insertHandler)

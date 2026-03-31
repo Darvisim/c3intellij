@@ -57,7 +57,7 @@ class ImportModuleInspection : LocalInspectionTool() {
 
                 val importIntention : ModuleName = element.fqName.module ?: return
 
-                if (importIntention.value == "std::core" || importIntention.value.startsWith("std::core::")) return;
+                if (importIntention.value == "std::core" || importIntention.value.startsWith("std::core::")) return
 
                 if (importProvider.imports.contains(importIntention)) return
 

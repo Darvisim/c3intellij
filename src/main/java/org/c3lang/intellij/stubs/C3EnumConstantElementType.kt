@@ -5,13 +5,10 @@ import com.intellij.psi.stubs.IndexSink
 import com.intellij.psi.stubs.StubElement
 import com.intellij.psi.stubs.StubInputStream
 import com.intellij.psi.stubs.StubOutputStream
-import org.c3lang.intellij.index.ReturnTypeIndex
 import org.c3lang.intellij.psi.C3EnumConstant
-import org.c3lang.intellij.psi.C3EnumDeclaration
 import org.c3lang.intellij.psi.C3StubElementType
 import org.c3lang.intellij.psi.C3StubElementTypeFactory
 import org.c3lang.intellij.psi.impl.C3EnumConstantImpl
-import org.c3lang.intellij.psi.impl.C3EnumDeclarationImpl
 import java.io.IOException
 
 class C3EnumConstantElementType : C3StubElementType<C3EnumConstantStub, C3EnumConstant>(C3StubElementTypeFactory.ENUM_DECLARATION) {

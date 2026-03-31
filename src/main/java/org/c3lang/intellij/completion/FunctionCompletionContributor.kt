@@ -20,9 +20,6 @@ import org.c3lang.intellij.intention.AddImportQuickFix
 import org.c3lang.intellij.psi.*
 
 object FunctionCompletionContributor : CompletionProvider<CompletionParameters>() {
-    private val log = Logger.getInstance(
-        FunctionCompletionContributor::class.java
-    )
     private val pattern = or(
         // foo::<caret>
         psiElement().inside(C3CallExpr::class.java),
@@ -42,10 +39,8 @@ object FunctionCompletionContributor : CompletionProvider<CompletionParameters>(
         context: ProcessingContext,
         result: CompletionResultSet
     ) {
-        val originalPosition = parameters.originalPosition
-
         if (!pattern.accepts(parameters.position) && !pattern.accepts(parameters.originalPosition)) {
-            return;
+            return
         }
 
         if (!originalPosition.isValidParameterValue()) {
@@ -161,23 +156,19 @@ object FunctionCompletionContributor : CompletionProvider<CompletionParameters>(
             ).joinToString(" ")
         }
 
-        val lookupElementBuilder =
-            LookupElementBuilder.create(element, fqName.fullName)
-                .withLookupStrings(
-                    listOf(
-                        fqName.fullName,
-                        fqName.suffixName,
-                        fqName.name
-                    )
+        return LookupElementBuilder.create(element, fqName.fullName)
+            .withLookupStrings(
+                listOf(
+                    fqName.fullName,
+                    fqName.suffixName,
+                    fqName.name
                 )
-                .withIcon(icon)
-                .withPresentableText(if (fqName.module == moduleName) fqName.name else fqName.fullName)
-                .appendTailText("($parameterList)", false)
-                .withTypeText(element.returnType?.fullName ?: "")
-                .withInsertHandler(insertHandler)
-
-        return lookupElementBuilder
-
+            )
+            .withIcon(icon)
+            .withPresentableText(if (fqName.module == moduleName) fqName.name else fqName.fullName)
+            .appendTailText("($parameterList)", false)
+            .withTypeText(element.returnType?.fullName ?: "")
+            .withInsertHandler(insertHandler)
     }
 
     private fun PsiElement?.isValidParameterValue(): Boolean {

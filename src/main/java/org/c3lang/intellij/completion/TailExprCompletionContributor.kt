@@ -30,7 +30,7 @@ object TailExprCompletionContributor : CompletionProvider<CompletionParameters>(
         result: CompletionResultSet
     ) {
         if (!pattern.accepts(parameters.position) && !pattern.accepts(parameters.originalPosition)) {
-            return;
+            return
         }
         val lookupTarget = parameters.siblingOf<C3ExprStmt>()
             ?: return

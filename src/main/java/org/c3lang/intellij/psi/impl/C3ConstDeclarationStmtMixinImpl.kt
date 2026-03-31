@@ -6,7 +6,6 @@ import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.stubs.IStubElementType
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
-import org.c3lang.intellij.C3TokenSets
 import org.c3lang.intellij.psi.C3ConstDeclarationStmt
 import org.c3lang.intellij.psi.C3Types
 import org.c3lang.intellij.psi.FullyQualifiedName

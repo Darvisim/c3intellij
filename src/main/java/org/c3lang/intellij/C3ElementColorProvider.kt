@@ -20,7 +20,7 @@ class C3ElementColorProvider : ElementColorProvider
             return JBColor(intval.toInt(), intval.toInt())
         }
         intval = ((intval and 0xFFFFFF00) shr 8) + ((intval and 0xFF) shl 24)
-        return JBColor(Color(intval.toInt(), true), Color(intval.toInt(), true));
+        return JBColor(Color(intval.toInt(), true), Color(intval.toInt(), true))
     }
 
     override fun setColorTo(element: PsiElement, color: Color)
