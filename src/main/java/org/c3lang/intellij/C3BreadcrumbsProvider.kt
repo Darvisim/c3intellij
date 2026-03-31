@@ -1,6 +1,5 @@
 package org.c3lang.intellij
 
-import com.intellij.lang.ASTNode
 import com.intellij.lang.Language
 import com.intellij.psi.PsiElement
 import com.intellij.ui.breadcrumbs.BreadcrumbsProvider

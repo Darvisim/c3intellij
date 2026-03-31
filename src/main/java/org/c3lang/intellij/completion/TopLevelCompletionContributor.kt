@@ -48,7 +48,7 @@ object TopLevelCompletionContributor : CompletionProvider<CompletionParameters>(
                 "static initialize",
                 "static finalize",
                 "asm",
-                "\$switch"
+                "\${'$'}switch"
             )
         )
 

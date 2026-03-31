@@ -5,9 +5,7 @@ import com.intellij.codeInspection.util.IntentionFamilyName
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.ReadAction
 import com.intellij.openapi.diagnostic.Logger
-import com.intellij.openapi.editor.Document
 import com.intellij.openapi.project.Project
-import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
 import com.intellij.psi.search.searches.ReferencesSearch
@@ -54,8 +52,5 @@ class LogReferencesInspection : LocalInspectionTool() {
                 log.debug("#3 ${refs.size}")
             }
         }
-    }
-
-    companion object {
     }
 }

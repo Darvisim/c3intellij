@@ -5,4 +5,10 @@ interface C3CallablePsiElement : C3FullyQualifiedNamePsiElement {
     val type: ShortType?
     val returnType: ShortType?
     val parameterTypes: List<ParamType>
+    val parameterListString: String get() = parameterTypes.joinToString(", ") {
+        listOfNotNull(
+            it.type?.fullName,
+            it.name
+        ).joinToString(" ")
+    }
 }

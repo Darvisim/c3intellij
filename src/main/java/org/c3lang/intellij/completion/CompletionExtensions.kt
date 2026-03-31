@@ -140,10 +140,5 @@ fun MinusculeMatcher.matchingDegreeOrZero(name: String): Int {
     return max(matchingDegree(name), 0)
 }
 
-data class Completion(
-    val lookupTarget: PsiElement,
-    val matcher: MinusculeMatcher,
-    val lookupString: String,
-)
 
 const val DUMMY_IDENTIFIER: String = "dummy;"

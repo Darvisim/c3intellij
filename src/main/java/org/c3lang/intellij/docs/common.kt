@@ -134,9 +134,9 @@ internal fun extractParamsFromDoc(docComment: String, args: List<String>): Map<S
 
     for (match in paramRegex.findAll(docComment))
     {
-        val contract = match.groupValues[1]
-        val name = match.groupValues[4]
-        val description = match.groupValues[6]
+        val contract = match.groupValues.getOrNull(1) ?: ""
+        val name = match.groupValues.getOrNull(4) ?: ""
+        val description = match.groupValues.getOrNull(6) ?: ""
 
         if (args.contains(name))
         {

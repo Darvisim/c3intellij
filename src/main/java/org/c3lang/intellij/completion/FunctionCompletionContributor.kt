@@ -148,12 +148,7 @@ object FunctionCompletionContributor : CompletionProvider<CompletionParameters>(
             else -> null
         }
 
-        val parameterList = element.parameterTypes.joinToString(",") {
-            listOfNotNull(
-                it.type?.fullName,
-                it.name
-            ).joinToString(" ")
-        }
+        val parameterList = element.parameterListString
 
         return LookupElementBuilder.create(element, fqName.fullName)
             .withLookupStrings(

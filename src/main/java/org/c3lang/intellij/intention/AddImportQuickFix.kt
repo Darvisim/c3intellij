@@ -138,14 +138,6 @@ class AddImportQuickFix(
 
             return ImportAction.ShouldImport(startOffset, moduleName)
         }
-
-        fun writeImport(
-            document: Document,
-            offset: Int,
-            moduleName: ModuleName
-        ) {
-            document.insertString(offset, "\nimport ${moduleName.value};\n")
-        }
     }
 
     sealed interface ImportAction {

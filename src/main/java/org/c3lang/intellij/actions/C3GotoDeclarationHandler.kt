@@ -13,16 +13,6 @@ class C3GotoDeclarationHandler : GotoDeclarationHandler {
         offset: Int,
         editor: Editor?
     ): Array<PsiElement>? {
-
-        val elements: Array<PsiElement>? = when (sourceElement) {
-            is C3Arg -> {
-                val refs = ReferencesSearch.search(sourceElement).findAll()
-                null
-            }
-
-            else -> null
-        }
-
-        return elements
+        return null
     }
 }

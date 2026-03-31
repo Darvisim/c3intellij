@@ -11,8 +11,8 @@ internal fun generateFuncDefDoc(element: C3FuncDef): String
     val type = element.returnType?.fullName!!
     val docs = findDocumentationComment(element.parent)
     val file = SymbolPresentationUtil.getFilePathPresentation(element.containingFile)
-    val argsString = element.fnParameterList.text.replace(Regex("\\s+"), " ").trim()
-    val args = element.fnParameterList.parameterList?.paramDeclList?.map { it.parameter.name!! }!!
+    val argsString = "(\${element.parameterListString})"
+    val args = element.parameterTypes.map { it.name }
 
     return renderFullDoc(file, name, type, argsString, args, docs, element.project)
 }

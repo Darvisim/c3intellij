@@ -53,10 +53,6 @@ data class FullyQualifiedName(
         name
     ).joinToString("::")
 
-    fun asShortType(): ShortType {
-        return ShortType(name, module?.suffix)
-    }
-
     companion object {
 
         fun parse(string: String): FullyQualifiedName {

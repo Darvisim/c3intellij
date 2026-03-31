@@ -23,8 +23,6 @@ object InitializerListCompletionContributor : CompletionProvider<CompletionParam
         context: ProcessingContext,
         result: CompletionResultSet
     ) {
-        val originalPosition = parameters.originalPosition
-
         if (!pattern.accepts(parameters.position) && !pattern.accepts(parameters.originalPosition)) {
             return
         }

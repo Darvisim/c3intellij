@@ -9,7 +9,6 @@ import com.intellij.patterns.PlatformPatterns.psiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.stubs.StubIndex
-import com.intellij.refactoring.suggested.startOffset
 import com.intellij.util.ProcessingContext
 import org.c3lang.intellij.C3Icons
 import org.c3lang.intellij.index.NameIndex
@@ -33,10 +32,8 @@ object TypeCompletionContributor : CompletionProvider<CompletionParameters>() {
         context: ProcessingContext,
         result: CompletionResultSet
     ) {
-        val originalPosition = parameters.originalPosition
-
         if (!pattern.accepts(parameters.position) && !pattern.accepts(parameters.originalPosition)) {
-            return;
+            return
         }
 
         // TODO myData<caret>.open.result = ...;  should complete reference to local declaration instead of Type or maybe both

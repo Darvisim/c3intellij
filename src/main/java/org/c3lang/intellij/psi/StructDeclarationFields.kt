@@ -2,7 +2,6 @@ package org.c3lang.intellij.psi
 
 import com.intellij.psi.stubs.StubInputStream
 import com.intellij.psi.stubs.StubOutputStream
-import com.intellij.psi.util.elementType
 
 sealed interface StructDeclarationFields {
     val declaredIn: FullyQualifiedPath
@@ -37,28 +36,6 @@ sealed interface StructDeclarationFields {
     }
 
     companion object {
-        fun build(source: C3StructMemberDeclaration): StructDeclarationFields? {
-            val baseType = source.type?.baseType ?: return null
-            val declaredIn = source.declaredIn ?: return null
-            val declaredInPathPath = source.declaredInPath
-
-            return when (baseType.firstChild.elementType) {
-                C3Types.TYPE_IDENT -> {
-                    baseType.moduleDefinition
-                    Complex(
-                        declaredIn = FullyQualifiedPath(
-                            typeName = declaredIn,
-                            path = declaredInPathPath ?: "<empty>"
-                        ),
-//                        fields = emptyMap()
-                    )
-                }
-
-                else -> Simple(
-                    FullyQualifiedPath(declaredIn, "-build-")
-                )
-            }
-        }
 
         fun deserialize(stream: StubInputStream): StructDeclarationFields {
             val typeName = FullyQualifiedName.parse(stream.readUTFFast())

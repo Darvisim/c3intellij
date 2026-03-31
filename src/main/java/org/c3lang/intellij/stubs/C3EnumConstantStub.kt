@@ -2,7 +2,6 @@ package org.c3lang.intellij.stubs
 
 import com.intellij.psi.stubs.*
 import org.c3lang.intellij.psi.C3EnumConstant
-import org.c3lang.intellij.psi.C3EnumDeclaration
 import org.c3lang.intellij.psi.FullyQualifiedName
 import org.c3lang.intellij.psi.ModuleName
 

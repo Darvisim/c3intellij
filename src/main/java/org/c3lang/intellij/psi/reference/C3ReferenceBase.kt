@@ -19,11 +19,7 @@ abstract class C3ReferenceBase<T : C3PsiElement>(
     override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult?> =
         multiResolve().map { PsiElementResolveResult(it) }.toTypedArray()
 
-//    final override fun getRangeInElement(): TextRange = super.getRangeInElement()
 
-    open val T.referenceAnchor: PsiElement? get() = referenceNameElement
-
-//    final override fun calculateDefaultRangeInElement(): TextRange {
 //        val anchor = element.referenceAnchor ?: return TextRange.EMPTY_RANGE
 //        check(anchor.parent === element)
 //        return TextRange.from(anchor.startOffsetInParent, anchor.textLength)

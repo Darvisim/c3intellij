@@ -28,7 +28,7 @@ data class StructField(
                     val type = it.type ?: return emptyList()
                     val typeFQN = module.resolve(type).singleOrNull()
                         ?: FullyQualifiedName(null, type.text)
-                    memberName?.let { listOf(StructField(it, typeFQN)) } ?: emptyList()
+                    memberName?.let { name -> listOf(StructField(name, typeFQN)) } ?: emptyList()
                 }
             }
 
