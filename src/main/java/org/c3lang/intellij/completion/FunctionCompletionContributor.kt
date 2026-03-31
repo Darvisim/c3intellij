@@ -1,10 +1,6 @@
 package org.c3lang.intellij.completion
 
 import com.intellij.codeInsight.completion.*
-import com.intellij.codeInsight.lookup.LookupElement
-import com.intellij.codeInsight.lookup.LookupElementBuilder
-import com.intellij.openapi.command.WriteCommandAction
-import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.util.TextRange
 import com.intellij.patterns.PlatformPatterns.and
 import com.intellij.patterns.PlatformPatterns.psiElement
@@ -43,7 +39,7 @@ object FunctionCompletionContributor : CompletionProvider<CompletionParameters>(
             return
         }
 
-        if (!originalPosition.isValidParameterValue()) {
+        if (!parameters.originalPosition.isValidParameterValue()) {
             return
         }
 

@@ -1,10 +1,20 @@
 package org.c3lang.intellij.completion
 
 import com.intellij.codeInsight.completion.CompletionParameters
+import com.intellij.openapi.util.TextRange
+import com.intellij.psi.PsiElement
+import com.intellij.psi.codeStyle.MinusculeMatcher
+import com.intellij.psi.codeStyle.NameUtil
+import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.psi.util.parentOfType
+import org.c3lang.intellij.psi.*
 import kotlin.math.max
 
 val CompletionParameters.moduleDefinition: C3ModuleDefinition?
     get() = siblingOf<C3ModuleDefinition>()
+
+val PsiElement.moduleDefinition: C3ModuleDefinition?
+    get() = parentOfType<C3ModuleDefinition>(true)
 
 /*@Deprecated("change to dedicated methods")
 val CompletionParameters.completion: Completion

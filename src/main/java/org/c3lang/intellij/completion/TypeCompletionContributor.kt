@@ -21,9 +21,6 @@ import javax.swing.Icon
 
 @Suppress("DuplicatedCode")
 object TypeCompletionContributor : CompletionProvider<CompletionParameters>() {
-    private val log = Logger.getInstance(
-        TypeCompletionContributor::class.java
-    )
 
     private val pattern = or(
         // foo::<caret>

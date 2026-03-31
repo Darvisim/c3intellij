@@ -62,6 +62,7 @@ class C3FindUsagesProvider : FindUsagesProvider {
         }
     }
 
+    override fun getNodeText(element: PsiElement, useFullName: Boolean): String {
         return element.text
     }
 }
