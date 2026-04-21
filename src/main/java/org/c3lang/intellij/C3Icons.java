@@ -19,6 +19,7 @@ public class C3Icons {
         public static final Icon BITSTRUCT = IconLoader.getIcon("/icons/nodes/bitstruct.svg", C3Icons.class.getClassLoader());
         public static final Icon CONSTANT = IconLoader.getIcon("/icons/nodes/constant.svg", C3Icons.class.getClassLoader());
         public static final Icon ENUM = IconLoader.getIcon("/icons/nodes/enum.svg", C3Icons.class.getClassLoader());
+		public static final Icon CONSTDEF = IconLoader.getIcon("/icons/nodes/enum.svg", C3Icons.class.getClassLoader());
         public static final Icon FAULT = IconLoader.getIcon("/icons/nodes/fault.svg", C3Icons.class.getClassLoader());
         public static final Icon FUNCTION = IconLoader.getIcon("/icons/nodes/function.svg", C3Icons.class.getClassLoader());
         public static final Icon INTERFACE = IconLoader.getIcon("/icons/nodes/interface.svg", C3Icons.class.getClassLoader());

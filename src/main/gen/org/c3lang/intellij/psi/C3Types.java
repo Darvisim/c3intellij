@@ -56,7 +56,7 @@ public interface C3Types {
   IElementType COND = new C3ElementType("COND");
   IElementType COND_REPEAT = new C3ElementType("COND_REPEAT");
   IElementType CONSTANT_EXPR = new C3ElementType("CONSTANT_EXPR");
-  IElementType CONSTDEF_CONSTANT = new C3ElementType("CONSTDEF_CONSTANT");
+  IElementType CONSTDEF_CONSTANT = C3StubElementTypeFactory.stubFactory("CONSTDEF_CONSTANT");
   IElementType CONSTDEF_DECLARATION = new C3ElementType("CONSTDEF_DECLARATION");
   IElementType CONSTDEF_LIST = new C3ElementType("CONSTDEF_LIST");
   IElementType CONST_DECLARATION_STMT = C3StubElementTypeFactory.stubFactory("CONST_DECLARATION_STMT");

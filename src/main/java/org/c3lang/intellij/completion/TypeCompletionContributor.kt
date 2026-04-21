@@ -79,6 +79,7 @@ object TypeCompletionContributor : CompletionProvider<CompletionParameters>() {
                 C3TypeEnum.STRUCT -> C3Icons.Nodes.STRUCT
                 C3TypeEnum.INTERFACE -> C3Icons.Nodes.INTERFACE
                 C3TypeEnum.ENUM -> C3Icons.Nodes.ENUM
+                C3TypeEnum.CONSTDEF -> C3Icons.Nodes.CONSTDEF
                 C3TypeEnum.UNION -> C3Icons.Nodes.UNION
                 C3TypeEnum.BITSTRUCT -> C3Icons.Nodes.BITSTRUCT
                 C3TypeEnum.FAULT -> C3Icons.Nodes.FAULT

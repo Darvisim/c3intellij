@@ -15,6 +15,7 @@ public class C3StubElementTypeFactory {
     public static final String STRUCT_MEMBER_DECLARATION = "STRUCT_MEMBER_DECLARATION";
     public static final String STRUCT_DECLARATION = "STRUCT_DECLARATION";
     public static final String ENUM_DECLARATION = "ENUM_DECLARATION";
+	public static final String CONSTDEF_DECLARATION = "CONSTDEF_DECLARATION";
     public static final String FAULT_DEFINITION = "FAULT_DEFINITION";
 
     public static IStubElementType<?, ?> stubFactory(String name) {
@@ -27,6 +28,7 @@ public class C3StubElementTypeFactory {
             case STRUCT_MEMBER_DECLARATION -> C3StructMemberDeclarationElementType.getInstance();
             case STRUCT_DECLARATION -> C3StructDeclarationElementType.getInstance();
             case ENUM_DECLARATION -> C3EnumConstantElementType.getInstance();
+			case CONSTDEF_DECLARATION -> C3ConstdefConstantElementType.getInstance();
             case FAULT_DEFINITION -> C3FaultDefinitionElementType.getInstance();
             default -> null;
         };

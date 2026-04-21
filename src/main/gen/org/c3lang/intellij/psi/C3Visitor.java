@@ -204,7 +204,7 @@ public class C3Visitor extends PsiElementVisitor {
   }
 
   public void visitConstdefConstant(@NotNull C3ConstdefConstant o) {
-    visitPsiElement(o);
+    visitConstdefConstantMixin(o);
   }
 
   public void visitConstdefDeclaration(@NotNull C3ConstdefDeclaration o) {
@@ -753,6 +753,10 @@ public class C3Visitor extends PsiElementVisitor {
   }
 
   public void visitConstDeclarationStmtMixin(@NotNull C3ConstDeclarationStmtMixin o) {
+    visitPsiElement(o);
+  }
+
+  public void visitConstdefConstantMixin(@NotNull C3ConstdefConstantMixin o) {
     visitPsiElement(o);
   }
 

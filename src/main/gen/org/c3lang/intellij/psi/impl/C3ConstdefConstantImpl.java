@@ -9,11 +9,22 @@ import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static org.c3lang.intellij.psi.C3Types.*;
 import org.c3lang.intellij.psi.*;
+import org.c3lang.intellij.stubs.C3ConstdefConstantStub;
+import com.intellij.psi.stubs.IStubElementType;
+import com.intellij.psi.tree.IElementType;
 
-public class C3ConstdefConstantImpl extends C3PsiElementImpl implements C3ConstdefConstant {
+public class C3ConstdefConstantImpl extends C3ConstdefConstantMixinImpl implements C3ConstdefConstant {
 
   public C3ConstdefConstantImpl(@NotNull ASTNode node) {
     super(node);
+  }
+
+  public C3ConstdefConstantImpl(@NotNull C3ConstdefConstantStub stub, @NotNull IStubElementType<?, ?> type) {
+    super(stub, type);
+  }
+
+  public C3ConstdefConstantImpl(@NotNull C3ConstdefConstantStub stub, @Nullable IElementType type, @Nullable ASTNode node) {
+    super(stub, type, node);
   }
 
   public void accept(@NotNull C3Visitor visitor) {
