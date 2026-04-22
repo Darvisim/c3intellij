@@ -118,7 +118,6 @@ public interface C3TokenSets
 
     TokenSet CT_KEYWORDS = TokenSet.create(C3Types.KW_CT_ASSERT,
                                            C3Types.KW_CT_CASE,
-                                           C3Types.KW_CT_IS_CONST,
                                            C3Types.KW_CT_DEFAULT,
                                            C3Types.KW_CT_DEFINED,
                                            C3Types.KW_CT_ECHO,

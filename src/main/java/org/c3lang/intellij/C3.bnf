@@ -150,6 +150,7 @@ top_level ::= import_decl
     | ct_error_stmt
     | ct_echo_stmt
     | ct_include_stmt
+    | KW_CT_EXPAND grouped_expr
     | type_decl
     | alias_decl
     | faultdef_decl
@@ -228,7 +229,7 @@ access_ident ::= IDENT | AT_IDENT | HASH_IDENT | KW_CT_EVAL '(' expr ')' | KW_TY
 
 arg_list ::= arg (COMMA arg)* COMMA?
 named_ident ::= CT_IDENT | HASH_IDENT | IDENT | CT_TYPE_IDENT
-arg ::= (named_ident |  COLON ELLIPSIS? expr) | param_path (EQ expr)? | expr | KW_CT_VASPLAT (LBT range_exp RBT)? | ELLIPSIS expr
+arg ::= (named_ident COLON (ELLIPSIS? expr)) | param_path (EQ (expr))? | expr | KW_CT_VASPLAT (LBT range_exp RBT)? | ELLIPSIS expr
 call_arg_list ::= arg_list? (EOS parameter_list?)?
 call_invocation ::= LP call_arg_list RP AT_IDENT*
 private dot_access_ident ::= DOT access_ident { pin=1 }
@@ -241,7 +242,6 @@ call_expr_tail ::= call_invocation compound_statement?
     | MINUSMINUS
     | BANG
     | BANGBANG
-
 
 param_path ::= param_path_element+
 param_path_element ::= LBT expr (DOTDOT expr)? RBT | DOT primary_group | DOT CT_TYPE_IDENT { pin(".*")=1 }
@@ -443,7 +443,7 @@ enum_access_expr ::= base_type DOT CONST_IDENT
 ct_feature_expr ::= KW_CT_FEATURE LP CONST_IDENT RP
 type_expr ::= type !IDENT !CT_IDENT !KW_CT_EVAL !QUESTION
 ct_arg ::= KW_CT_VACONST | KW_CT_VAARG | KW_CT_VAEXPR
-ct_analyze ::= KW_CT_EVAL | KW_CT_REFLECT | KW_CT_STRINGIFY | KW_CT_IS_CONST
+ct_analyze ::= KW_CT_EVAL | KW_CT_REFLECT | KW_CT_STRINGIFY | KW_CT_EXPAND
 ct_arg_expr ::= ct_arg LBT expr RBT
 ct_analyze_expr ::= ct_analyze grouped_expr
 ct_defined_check_expr ::= decl_or_expr | type
@@ -537,8 +537,8 @@ private keyword_list ::= KW_ALIAS | KW_ANY | KW_ATTRDEF | KW_ASM | KW_ASSERT
     | KW_TRY | KW_TYPEDEF | KW_TYPEID | KW_UNION | KW_VAR | KW_WHILE
     | KW_CT_ASSERT | KW_CT_CASE | KW_CT_DEFAULT | KW_CT_DEFINED | KW_CT_ECHO
     | KW_CT_ELSE | KW_CT_ENDFOR | KW_CT_ENDFOREACH | KW_CT_ENDIF | KW_CT_ENDSWITCH
-    | KW_CT_ERROR | KW_CT_EVAL | KW_CT_EVALTYPE | KW_CT_FEATURE
-    | KW_CT_FOR | KW_CT_FOREACH | KW_CT_IF | KW_CT_INCLUDE
+    | KW_CT_ERROR | KW_CT_EVAL | KW_CT_EVALTYPE | KW_CT_FEATURE | KW_CT_EXEC
+    | KW_CT_FOR | KW_CT_FOREACH | KW_CT_IF | KW_CT_INCLUDE | KW_CT_EXPAND
     | KW_CT_REFLECT
     | KW_CT_STRINGIFY | KW_CT_SWITCH | KW_CT_TYPEOF
     | KW_CT_TYPEFROM | KW_CT_VACOUNT | KW_CT_VACONST | KW_CT_VATYPE

@@ -8,14 +8,22 @@ import org.c3lang.intellij.psi.*
 
 abstract class C3ModuleDefinitionMixinImpl(node: ASTNode) : C3PsiElementImpl(node), C3ModuleDefinition {
 
-    override val imports: List<ModuleName>
-        get() = ModuleName.getImportList(this)
-    override val importDeclarations: List<C3ImportDecl>
-        get() = childrenOfType<C3TopLevel>().mapNotNull { it.importDecl }
-    override val moduleName: ModuleName?
-        get() = ModuleName.from(this)
-    override val importPaths: List<C3ImportPath>
-        get() = importDeclarations.flatMap { it.importPaths.importPathList }
+    override fun getImports(): List<ModuleName> {
+        return ModuleName.getImportList(this)
+    }
+
+    override fun getImportDeclarations(): List<C3ImportDecl> {
+        return childrenOfType<C3TopLevel>().mapNotNull { it.importDecl }
+    }
+
+    override fun getModuleName(): ModuleName? {
+        return ModuleName.from(this)
+    }
+
+    override fun getImportPaths(): List<C3ImportPath> {
+        return importDeclarations.flatMap { it.importPaths.importPathList }
+    }
+
 
     override fun containsImportOrSameModule(callable: C3FullyQualifiedNamePsiElement): Boolean {
         if (callable.moduleName == this.moduleName && callable.containingFile == this.containingFile) {
@@ -60,7 +68,7 @@ abstract class C3ModuleDefinitionMixinImpl(node: ASTNode) : C3PsiElementImpl(nod
     }
 
     override fun resolve(type: C3Type): List<FullyQualifiedName> {
-        if (type.baseType.primitiveType) {
+        if (type.baseType.isPrimitiveType()) {
             return listOfNotNull(FullyQualifiedName(null, type.baseType.text))
         }
 

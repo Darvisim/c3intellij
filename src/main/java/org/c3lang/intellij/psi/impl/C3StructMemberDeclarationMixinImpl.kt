@@ -41,37 +41,44 @@ abstract class C3StructMemberDeclarationMixinImpl : C3StubBasedPsiElementBase<C3
         return nameIdentElement?.textOffset ?: super.getTextOffset()
     }
 
-    override val nameIdentElement: LeafPsiElement?
-        get() {
-            return if (structBody != null) {
-                node.findChildByType(C3Types.IDENT)?.psi as? LeafPsiElement
-            } else {
-                identifierList?.firstChild as? LeafPsiElement
-            }
-        }
+    override fun getNameIdentElement(): LeafPsiElement? {
+        return if (structBody != null) {
+                        node.findChildByType(C3Types.IDENT)?.psi as? LeafPsiElement
+                    } else {
+                        identifierList?.firstChild as? LeafPsiElement
+                    }
+    }
 
-    override val nameIdent: String?
-        get() = nameIdentElement?.text
+    override fun getNameIdent(): String? {
+        return nameIdentElement?.text
+    }
 
-    override val declaredIn: FullyQualifiedName?
-        get() = parentOfType<C3DeclaredInProvider>()?.declaredIn
 
-    override val structPath: String?
-        get() = greenStub?.structPath ?: collectStructPath()
+    override fun getDeclaredIn(): FullyQualifiedName? {
+        return parentOfType<C3DeclaredInProvider>()?.declaredIn
+    }
 
-    override val structType: FullyQualifiedName?
-        get() = greenStub?.structType ?: collectStructType()
+    override fun getStructPath(): String?
+    {
+        return greenStub?.structPath ?: collectStructPath()
+    }
 
-    override val structPathType: FullyQualifiedName?
-        get() = greenStub?.structPathType ?: collectStructPathType()
+    override fun getStructType(): FullyQualifiedName? {
+        return greenStub?.structType ?: collectStructType()
+    }
 
-    override val declaredInPath: String?
-        get() {
-            return listOfNotNull(
-                parentOfType<C3DeclaredInPathProvider>()?.declaredInPath,
-                identifierList?.text
-            ).joinToString(".")
-        }
+
+    override fun getStructPathType(): FullyQualifiedName? {
+        return greenStub?.structPathType ?: collectStructPathType()
+    }
+
+    override fun getDeclaredInPath(): String? {
+        return listOfNotNull(
+                        parentOfType<C3DeclaredInPathProvider>()?.declaredInPath,
+                        identifierList?.text
+                    ).joinToString(".")
+    }
+
 
     private fun collectStructPath(): String? {
         val name = if (structBody != null) {

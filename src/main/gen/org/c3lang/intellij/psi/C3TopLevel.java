@@ -44,6 +44,9 @@ public interface C3TopLevel extends C3PsiElement {
   C3GlobalDecl getGlobalDecl();
 
   @Nullable
+  C3GroupedExpr getGroupedExpr();
+
+  @Nullable
   C3ImportDecl getImportDecl();
 
   @Nullable

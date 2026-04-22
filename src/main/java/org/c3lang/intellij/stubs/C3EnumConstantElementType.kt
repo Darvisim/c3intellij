@@ -14,7 +14,7 @@ import org.c3lang.intellij.psi.impl.C3EnumConstantImpl
 import org.c3lang.intellij.psi.impl.C3EnumDeclarationImpl
 import java.io.IOException
 
-class C3EnumConstantElementType : C3StubElementType<C3EnumConstantStub, C3EnumConstant>(C3StubElementTypeFactory.ENUM_DECLARATION) {
+class C3EnumConstantElementType : C3StubElementType<C3EnumConstantStub, C3EnumConstant>(C3StubElementTypeFactory.ENUM_CONSTANT) {
     override fun createPsi(stub: C3EnumConstantStub): C3EnumConstant {
         return C3EnumConstantImpl(stub, this)
     }

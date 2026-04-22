@@ -34,11 +34,14 @@ abstract class C3PathConstMixinImpl(node: ASTNode) : C3PsiNamedElementImpl(node)
         return nameIdentElement?.textOffset ?: super.getTextOffset()
     }
 
-    override val nameIdent: String?
-        get() = nameIdentElement?.text
+    override fun getNameIdent(): String? {
+        return nameIdentElement?.text
+    }
 
-    override val nameIdentElement: LeafPsiElement?
-        get() = firstChild.takeIf { it.elementType == C3Types.CONST_IDENT } as? LeafPsiElement?
+    override fun getNameIdentElement(): LeafPsiElement? {
+        return firstChild.takeIf { it.elementType == C3Types.CONST_IDENT } as? LeafPsiElement?
+    }
+
 
     override fun getReference(): PsiReference? {
         return PsiMultiReference(

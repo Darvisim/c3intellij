@@ -33,15 +33,13 @@ abstract class C3PathIdentMixinImpl(node: ASTNode) : C3PsiNamedElementImpl(node)
         return nameIdentElement?.textOffset ?: super.getTextOffset()
     }
 
-    override val nameIdent: String?
-        get() {
-            return nameIdentElement?.text
-        }
+    override fun getNameIdent(): String? {
+        return nameIdentElement?.text
+    }
 
-    override val nameIdentElement: LeafPsiElement?
-        get() {
-            return lastChild as? LeafPsiElement
-        }
+    override fun getNameIdentElement(): LeafPsiElement? {
+        return lastChild as? LeafPsiElement
+    }
 
     override fun findTypeName(): FullyQualifiedName? {
         val typeProvider = findLocalDeclAfterType().singleOrNull() as? C3FullyQualifiedTypeNameProvider

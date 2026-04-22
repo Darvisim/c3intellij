@@ -25,15 +25,12 @@ abstract class C3AccessIdentMixinImpl(node: ASTNode) : C3PsiNamedElementImpl(nod
         return nameIdentElement
     }
 
-    override val nameIdent: String?
-        get() {
-            return nameIdentElement?.text
-        }
-
-    override val nameIdentElement: LeafPsiElement?
-        get() {
-            return firstChild as? LeafPsiElement
-        }
+    override fun getNameIdent(): String? {
+        return nameIdentElement?.text
+    }
+    override fun getNameIdentElement(): LeafPsiElement? {
+        return firstChild as? LeafPsiElement
+    }
 
     override fun getTextOffset(): Int {
         return nameIdentElement?.textOffset ?: super.getTextOffset()

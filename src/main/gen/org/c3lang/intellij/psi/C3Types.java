@@ -262,12 +262,13 @@ public interface C3Types {
   IElementType KW_CT_ERROR = new C3TokenType("KW_CT_ERROR");
   IElementType KW_CT_EVAL = new C3TokenType("KW_CT_EVAL");
   IElementType KW_CT_EVALTYPE = new C3TokenType("KW_CT_EVALTYPE");
+  IElementType KW_CT_EXEC = new C3TokenType("KW_CT_EXEC");
+  IElementType KW_CT_EXPAND = new C3TokenType("KW_CT_EXPAND");
   IElementType KW_CT_FEATURE = new C3TokenType("KW_CT_FEATURE");
   IElementType KW_CT_FOR = new C3TokenType("KW_CT_FOR");
   IElementType KW_CT_FOREACH = new C3TokenType("KW_CT_FOREACH");
   IElementType KW_CT_IF = new C3TokenType("KW_CT_IF");
   IElementType KW_CT_INCLUDE = new C3TokenType("KW_CT_INCLUDE");
-  IElementType KW_CT_IS_CONST = new C3TokenType("KW_CT_IS_CONST");
   IElementType KW_CT_REFLECT = new C3TokenType("KW_CT_REFLECT");
   IElementType KW_CT_STRINGIFY = new C3TokenType("KW_CT_STRINGIFY");
   IElementType KW_CT_SWITCH = new C3TokenType("KW_CT_SWITCH");

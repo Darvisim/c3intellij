@@ -32,13 +32,17 @@ abstract class C3BaseTypeMixinImpl(node: ASTNode) : C3PsiNamedElementImpl(node),
             ?: node.startOffset
     }
 
-    override val nameIdent: String?
-        get() = nameIdentElement?.text
+    override fun getNameIdent(): String? {
+        return nameIdentElement?.text
+    }
 
-    override val nameIdentElement: LeafPsiElement?
-        get() = lastChild.takeIf {
-            it.node.elementType == C3Types.TYPE_IDENT
-        } as? LeafPsiElement
+
+    override fun getNameIdentElement(): LeafPsiElement? {
+        return lastChild.takeIf {
+                    it.node.elementType == C3Types.TYPE_IDENT
+                } as? LeafPsiElement
+    }
+
 
     override fun getReference(): PsiReference? {
         return C3TypeNameReference(this)

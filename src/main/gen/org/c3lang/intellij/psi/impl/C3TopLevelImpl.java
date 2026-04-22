@@ -100,6 +100,12 @@ public class C3TopLevelImpl extends C3PsiElementImpl implements C3TopLevel {
 
   @Override
   @Nullable
+  public C3GroupedExpr getGroupedExpr() {
+    return findChildByClass(C3GroupedExpr.class);
+  }
+
+  @Override
+  @Nullable
   public C3ImportDecl getImportDecl() {
     return findChildByClass(C3ImportDecl.class);
   }

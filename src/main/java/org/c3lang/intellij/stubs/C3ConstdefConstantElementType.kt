@@ -12,7 +12,7 @@ import org.c3lang.intellij.psi.C3StubElementTypeFactory
 import org.c3lang.intellij.psi.impl.C3ConstdefConstantImpl
 import java.io.IOException
 
-class C3ConstdefConstantElementType : C3StubElementType<C3ConstdefConstantStub, C3ConstdefConstant>(C3StubElementTypeFactory.CONSTDEF_DECLARATION) {
+class C3ConstdefConstantElementType : C3StubElementType<C3ConstdefConstantStub, C3ConstdefConstant>(C3StubElementTypeFactory.CONSTDEF_CONSTANT) {
     override fun createPsi(stub: C3ConstdefConstantStub): C3ConstdefConstant {
         return C3ConstdefConstantImpl(stub, this)
     }
