@@ -20,7 +20,7 @@ class C3Annotator : Annotator
 //            is C3CallExpr -> annotateMissingCallables(element, holder)
             is PsiComment ->
             {
-                if (element.elementType == C3ParserDefinition.DOC_COMMENT) annotateDocComment(element, holder)
+                if (element.elementType == C3ParserDefinition.DOC_COMMENT) DocCommentAnnotator.annotateDocComment(element, holder)
             }
         }
 

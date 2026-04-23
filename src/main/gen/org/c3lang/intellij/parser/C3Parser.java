@@ -2080,7 +2080,7 @@ public class C3Parser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KW_CT_ASSERT constant_expr (COLON constant_expr)? EOS
+  // KW_CT_ASSERT constant_expr (COLON constant_expr (COMMA constant_expr)*)? EOS
   public static boolean ct_assert_stmt(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ct_assert_stmt")) return false;
     if (!nextTokenIs(b, KW_CT_ASSERT)) return false;
@@ -2095,19 +2095,42 @@ public class C3Parser implements PsiParser, LightPsiParser {
     return r || p;
   }
 
-  // (COLON constant_expr)?
+  // (COLON constant_expr (COMMA constant_expr)*)?
   private static boolean ct_assert_stmt_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ct_assert_stmt_2")) return false;
     ct_assert_stmt_2_0(b, l + 1);
     return true;
   }
 
-  // COLON constant_expr
+  // COLON constant_expr (COMMA constant_expr)*
   private static boolean ct_assert_stmt_2_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ct_assert_stmt_2_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, COLON);
+    r = r && constant_expr(b, l + 1);
+    r = r && ct_assert_stmt_2_0_2(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // (COMMA constant_expr)*
+  private static boolean ct_assert_stmt_2_0_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ct_assert_stmt_2_0_2")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!ct_assert_stmt_2_0_2_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "ct_assert_stmt_2_0_2", c)) break;
+    }
+    return true;
+  }
+
+  // COMMA constant_expr
+  private static boolean ct_assert_stmt_2_0_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ct_assert_stmt_2_0_2_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, COMMA);
     r = r && constant_expr(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
@@ -2219,7 +2242,7 @@ public class C3Parser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KW_CT_ERROR constant_expr EOS
+  // KW_CT_ERROR constant_expr (COMMA constant_expr)* EOS
   public static boolean ct_error_stmt(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ct_error_stmt")) return false;
     if (!nextTokenIs(b, KW_CT_ERROR)) return false;
@@ -2228,9 +2251,32 @@ public class C3Parser implements PsiParser, LightPsiParser {
     r = consumeToken(b, KW_CT_ERROR);
     p = r; // pin = 1
     r = r && report_error_(b, constant_expr(b, l + 1));
+    r = p && report_error_(b, ct_error_stmt_2(b, l + 1)) && r;
     r = p && consumeToken(b, EOS) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
+  }
+
+  // (COMMA constant_expr)*
+  private static boolean ct_error_stmt_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ct_error_stmt_2")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!ct_error_stmt_2_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "ct_error_stmt_2", c)) break;
+    }
+    return true;
+  }
+
+  // COMMA constant_expr
+  private static boolean ct_error_stmt_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ct_error_stmt_2_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, COMMA);
+    r = r && constant_expr(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
   }
 
   /* ********************************************************** */

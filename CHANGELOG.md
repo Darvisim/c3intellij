@@ -2,6 +2,9 @@
 
 # C3IntelliJ Changelog
 
+## [Unreleased]
+- `$assert`, `$error` now work with vaargs.
+
 ## [0.2.1] - 2026-04-21
 - 0.8.0 Syntax compatibility
 

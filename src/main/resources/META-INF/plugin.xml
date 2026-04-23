@@ -121,10 +121,13 @@
     -->
   </extensions>
 
-  <actions>
-    <action id="C3NewFileAction" class="org.c3lang.intellij.actions.C3NewFileAction" text="C3 File">
-      <add-to-group group-id="NewGroup" anchor="first"/>
-    </action>
-  </actions>
+    <actions>
+        <action id="C3NewInterfaceFileAction" class="org.c3lang.intellij.actions.C3NewInterfaceFileAction" text="C3 Interface File">
+            <add-to-group group-id="NewGroup" anchor="first"/>
+        </action>
+        <action id="C3NewFileAction" class="org.c3lang.intellij.actions.C3NewFileAction" text="C3 File">
+            <add-to-group group-id="NewGroup" anchor="first"/>
+        </action>
+    </actions>
 
 </idea-plugin>

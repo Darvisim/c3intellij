@@ -328,8 +328,8 @@ var_decl ::= KW_VAR (IDENT attributes? eq_expr_pin | CT_TYPE_IDENT (EQ expr)? | 
 var_stmt ::= var_decl EOS
 expr_stmt ::= expr EOS {pin=1}
 
-ct_error_stmt ::= KW_CT_ERROR constant_expr EOS
-ct_assert_stmt ::= KW_CT_ASSERT constant_expr (COLON constant_expr)? EOS
+ct_error_stmt ::= KW_CT_ERROR constant_expr (COMMA constant_expr)* EOS
+ct_assert_stmt ::= KW_CT_ASSERT constant_expr (COLON constant_expr (COMMA constant_expr)*)? EOS
 ct_echo_stmt ::= KW_CT_ECHO constant_expr EOS
 ct_if_stmt ::= KW_CT_IF constant_expr COLON statement_list? (KW_CT_ELSE statement_list?)? KW_CT_ENDIF
 ct_case_stmt ::= (KW_CT_CASE constant_expr | KW_CT_DEFAULT) COLON statement_list?

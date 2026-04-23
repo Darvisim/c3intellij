@@ -27,9 +27,9 @@ public class C3CtErrorStmtImpl extends C3PsiElementImpl implements C3CtErrorStmt
   }
 
   @Override
-  @Nullable
-  public C3Expr getExpr() {
-    return findChildByClass(C3Expr.class);
+  @NotNull
+  public List<C3Expr> getExprList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, C3Expr.class);
   }
 
 }

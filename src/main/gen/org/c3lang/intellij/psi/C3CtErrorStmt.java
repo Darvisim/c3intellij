@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface C3CtErrorStmt extends C3PsiElement {
 
-  @Nullable
-  C3Expr getExpr();
+  @NotNull
+  List<C3Expr> getExprList();
 
 }
