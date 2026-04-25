@@ -63,7 +63,7 @@ intellijPlatform {
         changeNotes = providers.gradleProperty("version").map { pluginVersion ->
             with(changelog) {
                 renderItem(
-                    (getOrNull(version) ?: getUnreleased())
+                    (getOrNull(pluginVersion) ?: getUnreleased())
                         .withHeader(false)
                         .withEmptySections(false),
                     Changelog.OutputType.HTML,
