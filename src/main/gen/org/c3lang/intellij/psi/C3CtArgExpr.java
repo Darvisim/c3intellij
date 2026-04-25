@@ -10,7 +10,7 @@ public interface C3CtArgExpr extends C3Expr {
   @NotNull
   C3CtArg getCtArg();
 
-  @Nullable
+  @NotNull
   C3Expr getExpr();
 
 }

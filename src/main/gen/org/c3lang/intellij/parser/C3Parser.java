@@ -6255,7 +6255,7 @@ public class C3Parser implements PsiParser, LightPsiParser {
   //    ATOM(keyword_expr) ATOM(builtin_const_expr) ATOM(builtin_expr) ATOM(path_const_expr)
   //    ATOM(path_at_ident_expr) ATOM(compound_init_expr) PREFIX(grouped_expr) ATOM(local_ident_expr)
   //    ATOM(type_access_expr) ATOM(enum_access_expr) ATOM(type_expr) ATOM(ct_feature_expr)
-  //    PREFIX(ct_arg_expr) PREFIX(ct_analyze_expr) ATOM(ct_defined_expr) ATOM(lambda_decl_expr)
+  //    ATOM(ct_arg_expr) PREFIX(ct_analyze_expr) ATOM(ct_defined_expr) ATOM(lambda_decl_expr)
   //    PREFIX(lambda_decl_short_expr) ATOM(init_list_expr)
   public static boolean expr(PsiBuilder b, int l, int g) {
     if (!recursion_guard_(b, l, "expr")) return false;
@@ -6664,25 +6664,48 @@ public class C3Parser implements PsiParser, LightPsiParser {
     return r;
   }
 
+  // ct_arg (LBT expr RBT | LP expr RP)
   public static boolean ct_arg_expr(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ct_arg_expr")) return false;
-    boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_, null);
-    r = ct_arg_expr_0(b, l + 1);
-    p = r;
-    r = p && expr(b, l, -1);
-    r = p && report_error_(b, consumeToken(b, RBT)) && r;
-    exit_section_(b, l, m, CT_ARG_EXPR, r, p, null);
-    return r || p;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, CT_ARG_EXPR, "<ct arg expr>");
+    r = ct_arg(b, l + 1);
+    r = r && ct_arg_expr_1(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
   }
 
-  // ct_arg LBT
-  private static boolean ct_arg_expr_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "ct_arg_expr_0")) return false;
+  // LBT expr RBT | LP expr RP
+  private static boolean ct_arg_expr_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ct_arg_expr_1")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = ct_arg(b, l + 1);
-    r = r && consumeToken(b, LBT);
+    r = ct_arg_expr_1_0(b, l + 1);
+    if (!r) r = ct_arg_expr_1_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // LBT expr RBT
+  private static boolean ct_arg_expr_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ct_arg_expr_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokenSmart(b, LBT);
+    r = r && expr(b, l + 1, -1);
+    r = r && consumeToken(b, RBT);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // LP expr RP
+  private static boolean ct_arg_expr_1_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ct_arg_expr_1_1")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokenSmart(b, LP);
+    r = r && expr(b, l + 1, -1);
+    r = r && consumeToken(b, RP);
     exit_section_(b, m, null, r);
     return r;
   }

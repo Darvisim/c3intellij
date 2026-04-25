@@ -191,6 +191,9 @@ SHEBANG_COMMENT = "#!" .*
     "<<=" { return C3Types.SHL_ASSIGN; }
     ">>=" { return C3Types.SHR_ASSIGN; }
 
+    "$#" { return C3Types.KW_CT_VACOUNT; }
+    "$_" { return C3Types.KW_CT_VAARG; }
+    "$@" { return C3Types.KW_CT_VAARG; }
     "&&" { return C3Types.AND; }
     "->" { return TokenType.BAD_CHARACTER; } // Arrow
     "&=" { return C3Types.BIT_AND_ASSIGN; }
