@@ -13,6 +13,7 @@ idea {
         generatedSourceDirs.add(file("src/main/gen"))
     }
 }
+
 sourceSets {
     main {
         java {
@@ -20,7 +21,7 @@ sourceSets {
         }
     }
 }
-// Dependencies are managed with Gradle version catalog - read more: https://docs.gradle.org/current/userguide/version_catalogs.html
+
 dependencies {
     testImplementation("junit:junit:4.13.2")
 
