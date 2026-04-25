@@ -45,7 +45,7 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v5
         with:
-          distribution: corretto
+          distribution: zulu
           java-version: 21
 
       # Setup Gradle 
@@ -97,7 +97,7 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v5
         with:
-          distribution: corretto
+          distribution: zulu
           java-version: 21
 
       # Setup Gradle 
@@ -141,7 +141,7 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v5
         with:
-          distribution: corretto
+          distribution: zulu
           java-version: 21
 
       # Setup Gradle 
@@ -181,7 +181,7 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v5
         with:
-          distribution: corretto
+          distribution: zulu
           java-version: 21
 
       # Setup Gradle 
