@@ -10,19 +10,18 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Collection;
 import java.util.Collections;
 
-public class C3StdLibRootsProvider extends AdditionalLibraryRootsProvider {
-    @Override
-    public @NotNull Collection<SyntheticLibrary> getAdditionalProjectLibraries(Project project) {
+public class C3StdLibRootsProvider extends AdditionalLibraryRootsProvider
+{
+	@Override public @NotNull Collection<SyntheticLibrary> getAdditionalProjectLibraries(@NotNull Project project)
+	{
+		var settings = C3SettingsState.getInstance();
+		var stdLibPath = settings.stdlibPath;
 
-        var settings = C3SettingsState.getInstance();
-        var stdLibPath = settings.stdlibPath;
-
-        VirtualFile stdLibRoot = LocalFileSystem.getInstance().findFileByPath(stdLibPath);
-        if (stdLibRoot != null) {
-            return Collections.singletonList(
-                    SyntheticLibrary.newImmutableLibrary(Collections.singletonList(stdLibRoot))
-            );
-        }
-        return Collections.emptyList();
-    }
+		VirtualFile stdLibRoot = LocalFileSystem.getInstance().findFileByPath(stdLibPath);
+		if (stdLibRoot != null)
+		{
+			return Collections.singletonList(SyntheticLibrary.newImmutableLibrary(Collections.singletonList(stdLibRoot)));
+		}
+		return Collections.emptyList();
+	}
 }

@@ -54,9 +54,7 @@ public class C3BuildRunConfiguration extends RunConfigurationBase<C3CompileRunCo
     {
     }
 
-    @Override public @Nullable RunProfileState getState(@NotNull Executor executor,
-                                                        @NotNull ExecutionEnvironment executionEnvironment) throws
-                                                                                                            ExecutionException
+    @Override public @Nullable RunProfileState getState(@NotNull Executor executor, @NotNull ExecutionEnvironment executionEnvironment) throws ExecutionException
     {
         return new CommandLineState(executionEnvironment) {
             @Override protected @NotNull ProcessHandler startProcess() throws ExecutionException
@@ -68,12 +66,9 @@ public class C3BuildRunConfiguration extends RunConfigurationBase<C3CompileRunCo
                 // around parameters with spaces (so it would look like this: c3c run "--param value" which isn't valid
                 // syntax).
                 // Instead, I'm splitting the args string by spaces and adding that array.
-                if (getArgs() != null) {
-                    commandLine.addParameters(getArgs().split(" "));
-                }
+                if (getArgs() != null) commandLine.addParameters(getArgs().split(" "));
 
-                String workingDirectory = getWorkingDirectory();
-                commandLine.setWorkDirectory(workingDirectory);
+                commandLine.setWorkDirectory(getWorkingDirectory());
 
                 OSProcessHandler processHandler = ProcessHandlerFactory.getInstance().createColoredProcessHandler(commandLine);
                 ProcessTerminatedListener.attach(processHandler);

@@ -34,9 +34,9 @@ public class C3CtArgExprImpl extends C3ExprImpl implements C3CtArgExpr {
   }
 
   @Override
-  @Nullable
+  @NotNull
   public C3Expr getExpr() {
-    return findChildByClass(C3Expr.class);
+    return findNotNullChildByClass(C3Expr.class);
   }
 
 }
