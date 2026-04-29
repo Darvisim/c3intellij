@@ -1,0 +1,45 @@
+name: Intellij Platform Plugin Compatibility
+
+on:
+  push: 
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  compatibility:
+    name: Ensure Plugin Compatibility against IDEs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: zulu
+          java-version: 21
+
+      - name: Setup Gradle
+        uses: actions/setup-gradle@v6
+
+      - name: Build the plugin using Gradle
+        run: ./gradlew buildPlugin
+
+      - name: Verify Plugin on Intellij Platforms
+        id: verify
+        uses: ChrisCarini/intellij-platform-plugin-verifier-action@v2.0.5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          ide-versions: |
+            ideaIC:2019.3
+            ideaIU:2019.3
+            clion:2019.3
+
+      - name: Get log file path and print contents
+        run: |
+          echo "The verifier log file [${{steps.verify.outputs.verification-output-log-filename}}] contents : " ;
+          cat ${{steps.verify.outputs.verification-output-log-filename}}
+        
+        
+  
