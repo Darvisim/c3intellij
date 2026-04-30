@@ -14,8 +14,17 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v6
         
-    - name: Review Code using review dog
+    - name: Review Code using reviewdog
       uses: reviewdog/action-setup@v1.4.0
       with:
         reviewdog_version: latest
         filter_mode: nofilter
+
+    - name: Run Checkstyle and review
+      run: |
+        cat target/checkstyle-result.xml | reviewdog \
+            -f=checkstyle \
+            -reporter=github-check \
+            -filter-mode=nofilter \
+            -level=error \
+            -name="Full Codebase Review"
