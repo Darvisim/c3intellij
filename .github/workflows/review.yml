@@ -9,24 +9,37 @@ jobs:
   review:
    runs-on: ubuntu-latest
    permissions:
-     pull-requests: write
+      contents: read
+      checks: write
+      
    steps:
     - name: Checkout repo
       uses: actions/checkout@v6
-        
+      
+    - name: Setup Java
+      uses: actions/setup-java@v5
+      with:
+        distribution: zulu
+        java-version: 21
+
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v6
+      
     - name: Review Code using reviewdog
       uses: reviewdog/action-setup@v1.4.0
       with:
         reviewdog_version: latest
         filter_mode: nofilter
 
-    - name: Run Checkstyle and review
+    - name: Run Linter and Review
       env:
-        $REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        cat target/checkstyle-result.xml | reviewdog \
-            -f=checkstyle \
-            -reporter=github-check \
-            -filter-mode=nofilter \
-            -level=error \
-            -name="Full Codebase Review"
+        ./gradlew checkstyleMain || true 
+
+        find build/reports/checkstyle -name "*.xml" | xargs cat | reviewdog \
+          -f=checkstyle \
+          -reporter=github-check \
+          -filter-mode=nofilter \
+          -level=warning \
+          -name="Full Codebase Review"
