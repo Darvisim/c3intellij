@@ -25,7 +25,7 @@ jobs:
       uses: gradle/actions/setup-gradle@v6
       
     - name: Run Checkstyle with Reviewdog
-      uses: db-event/action-java-checkstyle@v1
+      uses: dbelyaev/action-checkstyle@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         reporter: github-check
