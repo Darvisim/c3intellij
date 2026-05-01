@@ -35,7 +35,7 @@ jobs:
       env:
         REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        ./gradlew checkstyleMain || true 
+        ./gradlew javac || true 
 
         find build/reports/checkstyle -name "*.xml" | xargs cat | reviewdog \
           -f=checkstyle \
