@@ -1,7 +1,8 @@
 name: Intellij Platform Plugin Compatibility
 
 on:
-  push: 
+  push:
+    branches: master
   pull_request:
   workflow_dispatch:
 
