@@ -33,9 +33,15 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           ide-versions: |
-            ideaIC:LATEST-EAP-SNAPSHOT
-            ideaIU:LATEST-EAP-SNAPSHOT
-            clion:LATEST-EAP-SNAPSHOT
+            ideaIC:2025.2
+            ideaIU:2025.2
+            clion:2025.2
+            ideaIC:2025.3
+            ideaIU:2025.3
+            clion:2025.3
+            ideaIC:2026.1
+            ideaIU:2026.1
+            clion:2026.1
 
       - name: Get log file path and print contents
         run: |
