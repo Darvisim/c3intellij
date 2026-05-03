@@ -21,6 +21,9 @@ on:
   # Trigger the workflow for a manual run
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+
 jobs:
 
   # Prepare the environment and build the plugin
