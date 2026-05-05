@@ -67,12 +67,12 @@
     <annotator language="C3"
                implementationClass="org.c3lang.intellij.annotation.C3Annotator"/>
     <completion.contributor language="C3"
-                            implementationClass="org.c3lang.intellij.completion.C3CompletionContributor" />
+                            implementationClass="org.c3lang.intellij.completion.C3CompletionContributor"/>
     <codeInsight.lineMarkerProvider language="C3"
-                                    implementationClass="org.c3lang.intellij.C3LineMarkerProvider" />
+                                    implementationClass="org.c3lang.intellij.C3LineMarkerProvider"/>
     <!--<completion.contributor language="C3"
-                                implementationClass="org.c3lang.intellij.C3CompletionContributor" />-->
-    <!--<psi.referenceProvider providerClass="org.c3lang.intellij.C3PsiReferenceProvider" />-->
+                                implementationClass="org.c3lang.intellij.C3CompletionContributor"/>-->
+    <!--<psi.referenceProvider providerClass="org.c3lang.intellij.C3PsiReferenceProvider"/>-->
     <!--<codeInsight.lineMarkerProvider language="JAVA"
                                         implementationClass="org.intellij.sdk.language.SimpleLineMarkerProvider"/>-->
     <!--<psi.referenceContributor implementation="org.intellij.sdk.language.SimpleReferenceContributor"/>-->
@@ -82,35 +82,35 @@
                      groupName="Import group"
                      enabledByDefault="true"
                      level="WARNING"
-                     implementationClass="org.c3lang.intellij.intention.ImportModuleInspection" />
+                     implementationClass="org.c3lang.intellij.intention.ImportModuleInspection"/>
     <localInspection language="C3"
                      enabledByDefault="true"
                      displayName="Log references"
                      groupName="Debug"
-                     implementationClass="org.c3lang.intellij.intention.LogReferencesInspection" />
+                     implementationClass="org.c3lang.intellij.intention.LogReferencesInspection"/>
     <!-- TODO: Enable after grammar rewrite -->
     <!--<localInspection language="C3"
                          enabledByDefault="true"
                          displayName="Call expressions"
                          groupName="Call expressions"
                          level="WARNING"
-                         implementationClass="org.c3lang.intellij.intention.CallExprInspection" />-->
+                         implementationClass="org.c3lang.intellij.intention.CallExprInspection"/>-->
 
     <colorSettingsPage implementation="org.c3lang.intellij.C3ColorSettingsPage"/>
-    <colorProvider implementation="org.c3lang.intellij.C3ElementColorProvider" />
+    <colorProvider implementation="org.c3lang.intellij.C3ElementColorProvider"/>
     <breadcrumbsInfoProvider implementation="org.c3lang.intellij.C3BreadcrumbsProvider"/>
-    <editorNotificationProvider implementation="org.c3lang.intellij.actions.C3EditorNotificationProvider" />
+    <editorNotificationProvider implementation="org.c3lang.intellij.actions.C3EditorNotificationProvider"/>
 
     <applicationConfigurable id="org.c3lang.compiler"
                              displayName="C3 Compiler"
                              parentId="build"
-                             instance="org.c3lang.intellij.C3CompilerConfigurable" />
+                             instance="org.c3lang.intellij.C3CompilerConfigurable"/>
     <applicationService serviceImplementation="org.c3lang.intellij.C3SettingsState"/>
 
     <projectConfigurable instance="org.c3lang.intellij.settings.C3Configurable"
                          parentId="language"
                          id="c3.language.settings"
-                         displayName="C3" />
+                         displayName="C3"/>
     
     <sdkType implementation="org.c3lang.intellij.C3SdkType"/>
     <newProjectWizard.languageGenerator implementation="org.c3lang.intellij.wizard.C3NewProjectWizard"/>
